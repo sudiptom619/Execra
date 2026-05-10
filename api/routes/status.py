@@ -15,7 +15,7 @@ async def get_status():
         "version": "0.1.0",
         "uptime_seconds": uptime_seconds,
         "active_domain": "digital",
-        "active_mode": "passivesta",
+        "active_mode": "passive",
         "perception_fps": settings.SCREEN_CAPTURE_FPS,
         "llm_backend": settings.LLM_BACKEND
         } 
