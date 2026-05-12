@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from api.routes import status, mode
 
 app = FastAPI(
     title="Execra API",
@@ -34,6 +35,11 @@ def read_root():
         "version": "0.1.0"
     }
 
-# Placeholder routers
+# Routes
+
+app.include_router(status.router, prefix="/api/v1")
+app.include_router(mode.router, prefix="/api/v1")
+
+
 # from api.routes import users
 # app.include_router(users.router)

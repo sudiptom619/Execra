@@ -21,4 +21,8 @@ async def switch_mode(request: ModeRequest):
     except ValueError:
         raise HTTPException(status_code=400, detail="Invalid mode value")
     
-    return mode_manager.get_current_mode()
+    result = mode_manager.get_current_mode()
+    return {
+        "mode": result["mode"],
+        "message": result["description"]
+    }
