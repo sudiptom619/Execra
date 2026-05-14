@@ -4,8 +4,9 @@ Tests: defaults, environment variable overrides, and validation.
 """
 
 import os
-import pytest
 from unittest.mock import patch
+
+import pytest
 from dotenv import load_dotenv
 
 
