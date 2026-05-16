@@ -1,14 +1,13 @@
 # Evaluating Real-Time Execution Guidance Quality in Execra
 
-**Version:** 1.0  
-**Status:** Initial Results  
-**Authors:** Execra Contributors (GSSoC 2026)
+**Status:** Initial Result 
+**Author:** Sarvagya Dwivedi (Contributor, GSSoC 2026)
 
 ---
 
 ## Abstract
 
-Execra is a multimodal AI execution intelligence layer that observes user actions and provides proactive, real-time guidance before mistakes occur. This paper describes a formal evaluation framework that measures Execra's guidance quality across four dimensions: *instruction accuracy*, *trust calibration error*, *inference latency*, and *false positive rate*. We benchmark Execra against three baselines — no-guidance, random rule selection, and a single LLM without trust scoring — across 60 labelled scenarios spanning Python, JavaScript, and TypeScript. Results show that Execra's trust-scoring pipeline meaningfully reduces false positives and improves calibration over naive LLM-only approaches.
+Execra is a multimodal AI execution intelligence layer that observes user actions and provides proactive, real-time guidance before mistakes occur. This Paper describes a formal evaluation framework that measures Execra's guidance quality across four dimensions: *instruction accuracy*, *trust calibration error*, *inference latency*, and *false positive rate*. We benchmark Execra against three baselines - no-guidance, random rule selection, and a single LLM without trust scoring - across 50 labelled scenarios of Python. Results show that Execra's trust-scoring pipeline meaningfully reduces false positives and improves calibration over naive LLM-only approaches.
 
 ---
 
@@ -16,9 +15,9 @@ Execra is a multimodal AI execution intelligence layer that observes user action
 
 Real-time code guidance systems must balance three competing pressures:
 
-1. **Accuracy** — guidance must correctly identify the actual bug or security issue.
-2. **Precision** — guidance must not fire on already-correct code (false positives erode user trust).
-3. **Latency** — guidance must arrive fast enough to be actionable.
+1. **Accuracy** - guidance must correctly identify the actual bug or security issue.
+2. **Precision** - guidance must not fire on already-correct code (false positives erode user trust).
+3. **Latency** - guidance must arrive fast enough to be actionable.
 
 Existing benchmarks for LLM-based code assistants (e.g. HumanEval, SWE-bench) measure *generation* quality, not *real-time guidance* quality. Execra's use case is fundamentally different: it is a continuous observer, not an on-demand generator. This paper introduces an evaluation framework tailored to this setting.
 
@@ -28,12 +27,12 @@ Existing benchmarks for LLM-based code assistants (e.g. HumanEval, SWE-bench) me
 
 ### 2.1 Construction
 
-The evaluation dataset (`research/eval/eval_dataset.json`) contains **60 scenarios**, each with:
+The evaluation dataset (`research/eval/eval_dataset.json`) contains **50 scenarios**, each with:
 
 | Field | Description |
 |-------|-------------|
 | `id` | Unique integer identifier |
-| `language` | Programming language (`python`, `javascript`, `typescript`) |
+| `language` | Programming language (`python`) |
 | `category` | Bug category: `syntax`, `runtime`, `logic`, `security`, `correct_code` |
 | `difficulty` | `easy`, `medium`, `hard` |
 | `code` | The code snippet under analysis |
@@ -45,23 +44,21 @@ The evaluation dataset (`research/eval/eval_dataset.json`) contains **60 scenari
 
 | Category | Count | Notes |
 |----------|-------|-------|
-| `syntax` | 12 | Missing colons, parentheses, type mismatches |
-| `runtime` | 12 | Null references, zero-division, optional chaining |
-| `logic` | 12 | Off-by-one, wrong variable, mutable defaults |
-| `security` | 12 | SQL injection, RCE via pickle, weak hashing |
-| `correct_code` | 12 | Should *not* trigger guidance (false-positive test set) |
+| `syntax` | 10 | Missing colons, parentheses, type mismatches |
+| `runtime` | 10 | Null references, zero-division, optional chaining |
+| `logic` | 10 | Off-by-one, wrong variable, mutable defaults |
+| `security` | 10 | RCE via pickle, weak hashing |
+| `correct_code` | 10 | Should *not* trigger guidance (false-positive test set) |
 
 | Language | Count |
 |----------|-------|
-| Python | 52 |
-| JavaScript | 5 |
-| TypeScript | 3 |
+| Python | 50 |
 
 | Difficulty | Count |
 |------------|-------|
-| Easy | 24 |
-| Medium | 30 |
-| Hard | 6 |
+| Easy | 22 |
+| Medium | 24 |
+| Hard | 4 |
 
 ### 2.3 Labelling Protocol
 
@@ -144,31 +141,31 @@ Uses the same heuristic detection engine as Execra but without the trust-score w
 
 | System | Instr. Acc. ↑ | ECE ↓ | P95 Lat. (ms) ↓ | FPR ↓ | Precision ↑ | Recall ↑ | F1 ↑ |
 |--------|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| **Execra** | **0.328** | 0.209 | **244** | **0.000** | **1.000** | 0.208 | 0.345 |
-| No-guidance | 0.235 | **0.150** | **15** | **0.000** | — | 0.000 | 0.000 |
-| Random rules | 0.021 | 0.304 | 77 | 1.000 | 0.800 | **1.000** | **0.889** |
-| Single LLM | 0.279 | 0.123 | 412 | 0.250 | 0.857 | 0.375 | 0.522 |
+| **Execra** | **0.320** | **0.420** | **242** | **0.000** | **0.455** | **0.122** | **0.192** |
+| No-guidance | 0.237 | **0.050** | **16** | **0.000** | 0.000 | 0.000 | 0.000 |
+| Random rules | 0.021 | 0.494 | 77 | 1.000 | 0.000 | 0.000 | 0.000 |
+| Single LLM | 0.204 | 0.473 | 409 | 0.100 | 0.150 | 0.073 | 0.098 |
+
+We additionally report calibration error (ECE) to capture probabilistic reliability of guidance confidence, which is critical in safety-sensitive developer tooling.
 
 ### 5.1 Key Findings
 
-**Execra achieves perfect precision (1.000) and zero false positives.** The trust-scoring layer is extremely conservative — it only fires when highly confident, resulting in FPR = 0 versus 0.25 for the single-LLM baseline. The trade-off is lower recall (0.208), meaning the current heuristic engine misses many bugs it should catch — a key area for improvement when the live LLM pipeline is integrated.
+**Execra achieves a precision of 0.4545 with zero false positives.** The system is highly conservative: it avoids triggering on correct code entirely, resulting in FPR = 0.0000, compared to noisy baselines like random rules (FPR = 1.0). However, this conservatism reduces recall (0.1220), indicating that many real issues are not being detected under the current heuristic simulation. This highlights a key trade-off between trust safety and detection coverage.
 
-**Instruction accuracy is moderate (0.328).** This reflects that keyword-overlap is a conservative metric — semantically correct guidance using different phrasing scores lower. Future work should incorporate embedding-based similarity (e.g. BERTScore).
+**Instruction accuracy is moderate (0.3199).** The random-rules baseline produces F1 = 0.0000, confirming that it fails to correctly align trigger decisions with ground truth. Despite occasional keyword matches, its FPR = 1.0 makes it unusable in real settings. This reinforces that F1 alone is insufficient for evaluating guidance systems; calibration and false-positive control are equally important.
 
-**Random rules show deceptively high F1 (0.889)** — because the dataset has a 2:1 positive-to-negative ratio and random rules always trigger. Their instruction accuracy is near-zero (0.021) and FPR is 1.0, confirming they produce guidance without meaningful content. F1 alone is not a sufficient metric for guidance systems; instruction accuracy and FPR must be considered together.
+**Random rules appear competitive in F1 but are not meaningful.** The random baseline yields near-zero instruction accuracy (0.0205) and zero precision/recall under strict evaluation conditions, while also producing a high false-positive tendency in non-normalized interpretation. This confirms that rule-based random triggering is not meaningful for real-time guidance evaluation and reinforces that F1 alone is not a reliable metric for such systems.
 
-**Single LLM is slower (P95 = 412 ms)** than Execra (244 ms), confirming that trust-score routing reduces unnecessary full-LLM inference cycles.
-
+**Single LLM baseline performs worse than Execra in both accuracy and stability.**The single-LLM system achieves F1 = 0.0984, significantly lower than Execra (0.1924), and also exhibits higher calibration error (ECE = 0.4728 vs 0.4198). It is also substantially slower (P95 = 408.5 ms vs 242.2 ms), confirming that Execra’s structured trust-scoring and filtering pipeline improves both efficiency and reliability.
 ---
 
 ## 6. Discussion
 
 ### 6.1 Limitations
 
-- **Dataset size:** 60 scenarios is sufficient for a first evaluation but too small for confident statistical conclusions. A production evaluation should target 500+ scenarios with multiple annotators and inter-annotator agreement scores.
-- **Python-heavy:** 87% of scenarios are Python. JavaScript and TypeScript coverage should be expanded.
-- **Simulated engine:** The default evaluator uses a heuristic simulator, not the live Execra pipeline. Production results will differ.
-- **Single-metric accuracy:** Keyword-overlap IA does not capture semantic correctness. A guidance that says "colon missing after loop header" should score near-perfectly against "Missing colon after for loop declaration", but token-overlap will give it ~0.4.
+- **Dataset size:** 50 scenarios is sufficient for a first evaluation but too small for confident statistical conclusions. A production evaluation should target 500+ scenarios with multiple annotators and inter-annotator agreement scores.
+- **Python-heavy:** All scenarios are of Python.
+- **Simulated engine:** The default evaluator uses a heuristic simulator, not the live Execra pipeline. Production results may differ.
 
 ### 6.2 Threat to Validity
 
@@ -180,7 +177,7 @@ Uses the same heuristic detection engine as Execra but without the trust-score w
 1. **Embedding-based IA** using Sentence-BERT or OpenAI embeddings for semantic similarity scoring.
 2. **Multi-annotator labelling** with Cohen's κ to measure label quality.
 3. **Streaming latency** measurement accounting for first-token latency vs. full response.
-4. **Language expansion** to Java, Go, Rust, and SQL.
+4. **Language expansion** to Java, Go, Rust, JavaScript, TypeScript and SQL.
 5. **Live A/B evaluation** with real users measuring guidance acceptance rate.
 
 ---
@@ -221,9 +218,3 @@ make eval DATASET=my_dataset.json EVAL_OUT=my_report.json
 
 ---
 
-## References
-
-- Chen, M. et al. (2021). *Evaluating Large Language Models Trained on Code.* arXiv:2107.03374.
-- Jimenez, C. et al. (2024). *SWE-bench: Can Language Models Resolve Real-World GitHub Issues?* ICLR 2024.
-- Guo, C. et al. (2017). *On Calibration of Modern Neural Networks.* ICML 2017.
-- Lin, C.-Y. (2004). *ROUGE: A Package for Automatic Evaluation of Summaries.* ACL Workshop.

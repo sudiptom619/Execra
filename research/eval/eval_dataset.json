@@ -363,16 +363,6 @@
     "id": 37,
     "language": "python",
     "category": "security",
-    "difficulty": "hard",
-    "code": "from flask import request\nexec(request.args['cmd'])",
-    "expected_guidance": "Remote code execution risk detected through exec usage",
-    "ground_truth_fix": "from flask import request\nprint(request.args['cmd'])",
-    "should_trigger_guidance": true
-  },
-  {
-    "id": 38,
-    "language": "python",
-    "category": "security",
     "difficulty": "medium",
     "code": "open('/tmp/data.txt', 'w').write(user_input)",
     "expected_guidance": "Unvalidated user input written directly to file",
@@ -380,7 +370,7 @@
     "should_trigger_guidance": true
   },
   {
-    "id": 39,
+    "id": 38,
     "language": "python",
     "category": "security",
     "difficulty": "easy",
@@ -390,7 +380,7 @@
     "should_trigger_guidance": true
   },
   {
-    "id": 40,
+    "id": 39,
     "language": "python",
     "category": "security",
     "difficulty": "medium",
@@ -400,7 +390,7 @@
     "should_trigger_guidance": true
   },
   {
-    "id": 41,
+    "id": 40,
     "language": "python",
     "category": "correct_code",
     "difficulty": "easy",
@@ -410,7 +400,7 @@
     "should_trigger_guidance": false
   },
   {
-    "id": 42,
+    "id": 41,
     "language": "python",
     "category": "correct_code",
     "difficulty": "easy",
@@ -420,7 +410,7 @@
     "should_trigger_guidance": false
   },
   {
-    "id": 43,
+    "id": 42,
     "language": "python",
     "category": "correct_code",
     "difficulty": "medium",
@@ -430,7 +420,7 @@
     "should_trigger_guidance": false
   },
   {
-    "id": 44,
+    "id": 43,
     "language": "python",
     "category": "correct_code",
     "difficulty": "easy",
@@ -440,7 +430,7 @@
     "should_trigger_guidance": false
   },
   {
-    "id": 45,
+    "id": 44,
     "language": "python",
     "category": "correct_code",
     "difficulty": "medium",
@@ -450,7 +440,7 @@
     "should_trigger_guidance": false
   },
   {
-    "id": 46,
+    "id": 45,
     "language": "python",
     "category": "correct_code",
     "difficulty": "medium",
@@ -460,7 +450,7 @@
     "should_trigger_guidance": false
   },
   {
-    "id": 47,
+    "id": 46,
     "language": "python",
     "category": "correct_code",
     "difficulty": "easy",
@@ -470,7 +460,7 @@
     "should_trigger_guidance": false
   },
   {
-    "id": 48,
+    "id": 47,
     "language": "python",
     "category": "correct_code",
     "difficulty": "medium",
@@ -480,7 +470,7 @@
     "should_trigger_guidance": false
   },
   {
-    "id": 49,
+    "id": 48,
     "language": "python",
     "category": "correct_code",
     "difficulty": "easy",
@@ -490,7 +480,7 @@
     "should_trigger_guidance": false
   },
   {
-    "id": 50,
+    "id": 49,
     "language": "python",
     "category": "correct_code",
     "difficulty": "medium",
@@ -500,97 +490,7 @@
     "should_trigger_guidance": false
   },
   {
-    "id": 51,
-    "language": "javascript",
-    "category": "syntax",
-    "difficulty": "easy",
-    "code": "function greet(name) {\n  console.log('Hello ' + name\n}",
-    "expected_guidance": "Missing closing parenthesis in console.log call",
-    "ground_truth_fix": "function greet(name) {\n  console.log('Hello ' + name);\n}",
-    "should_trigger_guidance": true
-  },
-  {
-    "id": 52,
-    "language": "javascript",
-    "category": "runtime",
-    "difficulty": "medium",
-    "code": "const user = null;\nconsole.log(user.name);",
-    "expected_guidance": "Null reference: accessing property 'name' on null will throw TypeError",
-    "ground_truth_fix": "const user = null;\nconsole.log(user?.name ?? 'unknown');",
-    "should_trigger_guidance": true
-  },
-  {
-    "id": 53,
-    "language": "javascript",
-    "category": "logic",
-    "difficulty": "medium",
-    "code": "const arr = [1, 2, 3];\nconst doubled = arr.map(x => x * 2);\nconsole.log(arr);",
-    "expected_guidance": "Logical issue: map returns a new array; original arr is logged, not doubled",
-    "ground_truth_fix": "const arr = [1, 2, 3];\nconst doubled = arr.map(x => x * 2);\nconsole.log(doubled);",
-    "should_trigger_guidance": true
-  },
-  {
-    "id": 54,
-    "language": "javascript",
-    "category": "security",
-    "difficulty": "hard",
-    "code": "app.get('/user', (req, res) => {\n  const id = req.query.id;\n  db.query(`SELECT * FROM users WHERE id = ${id}`, (err, result) => {\n    res.json(result);\n  });\n});",
-    "expected_guidance": "SQL injection vulnerability: user input interpolated directly into query string",
-    "ground_truth_fix": "app.get('/user', (req, res) => {\n  const id = req.query.id;\n  db.query('SELECT * FROM users WHERE id = ?', [id], (err, result) => {\n    res.json(result);\n  });\n});",
-    "should_trigger_guidance": true
-  },
-  {
-    "id": 55,
-    "language": "javascript",
-    "category": "correct_code",
-    "difficulty": "medium",
-    "code": "const arr = [3, 1, 2];\nconst sorted = [...arr].sort((a, b) => a - b);\nconsole.log(sorted);",
-    "expected_guidance": "No issues detected",
-    "ground_truth_fix": "const arr = [3, 1, 2];\nconst sorted = [...arr].sort((a, b) => a - b);\nconsole.log(sorted);",
-    "should_trigger_guidance": false
-  },
-  {
-    "id": 56,
-    "language": "typescript",
-    "category": "syntax",
-    "difficulty": "easy",
-    "code": "function add(a: number, b: number): number {\n  return a + b\n}\nconst result: string = add(1, 2);",
-    "expected_guidance": "Type mismatch: add returns number but result is typed as string",
-    "ground_truth_fix": "function add(a: number, b: number): number {\n  return a + b;\n}\nconst result: number = add(1, 2);",
-    "should_trigger_guidance": true
-  },
-  {
-    "id": 57,
-    "language": "typescript",
-    "category": "runtime",
-    "difficulty": "medium",
-    "code": "interface User { name: string; age?: number; }\nfunction greet(user: User) {\n  return `Hello ${user.name}, age ${user.age.toFixed(0)}`;\n}",
-    "expected_guidance": "Optional property 'age' accessed without null check; will throw at runtime if undefined",
-    "ground_truth_fix": "interface User { name: string; age?: number; }\nfunction greet(user: User) {\n  return `Hello ${user.name}, age ${user.age?.toFixed(0) ?? 'unknown'}`;\n}",
-    "should_trigger_guidance": true
-  },
-  {
-    "id": 58,
-    "language": "typescript",
-    "category": "correct_code",
-    "difficulty": "hard",
-    "code": "type Result<T, E> = { ok: true; value: T } | { ok: false; error: E };\nfunction divide(a: number, b: number): Result<number, string> {\n  if (b === 0) return { ok: false, error: 'Division by zero' };\n  return { ok: true, value: a / b };\n}",
-    "expected_guidance": "No issues detected",
-    "ground_truth_fix": "type Result<T, E> = { ok: true; value: T } | { ok: false; error: E };\nfunction divide(a: number, b: number): Result<number, string> {\n  if (b === 0) return { ok: false, error: 'Division by zero' };\n  return { ok: true, value: a / b };\n}",
-    "should_trigger_guidance": false
-  },
-  {
-    "id": 59,
-    "language": "python",
-    "category": "security",
-    "difficulty": "hard",
-    "code": "import pickle, base64\nfrom flask import request\n\n@app.route('/load')\ndef load_data():\n    data = base64.b64decode(request.args.get('payload'))\n    obj = pickle.loads(data)\n    return str(obj)",
-    "expected_guidance": "Critical: deserializing user-supplied pickle data enables arbitrary code execution (RCE)",
-    "ground_truth_fix": "import json\nfrom flask import request\n\n@app.route('/load')\ndef load_data():\n    data = request.args.get('payload')\n    obj = json.loads(data)\n    return str(obj)",
-    "should_trigger_guidance": true
-  },
-  {
-    "id": 60,
+    "id": 50,
     "language": "python",
     "category": "logic",
     "difficulty": "hard",

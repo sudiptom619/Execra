@@ -1,55 +1,38 @@
-"""
-Execra Guidance Evaluator
-=========================
-Measures Execra's guidance quality against the eval_dataset.json benchmark.
-
-Usage:
-    from research.eval.evaluator import GuidanceEvaluator
-    report = GuidanceEvaluator().evaluate("research/eval/eval_dataset.json")
-    print(report)
-
-Or via CLI:
-    python -m research.eval.evaluator --dataset research/eval/eval_dataset.json
-"""
-
 from __future__ import annotations
 
 import json
 import re
 import time
+import random
 import argparse
 import statistics
 from dataclasses import dataclass, field, asdict
-from typing import List, Optional, Dict, Any
+from typing import List, Dict, Any
+from datetime import datetime, timezone
 
+THRESHOLD = 0.4 
 
-# ---------------------------------------------------------------------------
 # Data models
-# ---------------------------------------------------------------------------
-
 @dataclass
 class ScenarioResult:
-    """Per-scenario evaluation output."""
     scenario_id: int
     language: str
     category: str
     difficulty: str
 
-    # Inputs
     code: str
     expected_guidance: str
     ground_truth_fix: str
     should_trigger_guidance: bool
 
-    # Outputs from the guidance system under test
     actual_guidance: str
     triggered_guidance: bool
     latency_ms: float
-
-    # Computed metrics
+ 
     instruction_accuracy: float      # keyword-overlap ROUGE-like score [0, 1]
     confidence_score: float          # system's reported confidence [0, 1]
-    correct_trigger: bool            # whether trigger decision matches ground truth
+    correct_trigger: bool 
+    is_correct_guidance: bool          
 
     def to_dict(self) -> Dict[str, Any]:
         return asdict(self)
@@ -57,21 +40,6 @@ class ScenarioResult:
 
 @dataclass
 class EvalReport:
-    """
-    Aggregated evaluation report across all scenarios.
-
-    Metrics
-    -------
-    instruction_accuracy  : Mean keyword-overlap between actual and expected guidance.
-    trust_calibration_error : Expected Calibration Error (ECE) – gap between
-                              confidence and empirical accuracy.
-    latency_p95_ms        : 95th-percentile inference latency in milliseconds.
-    false_positive_rate   : Rate at which guidance fires on already-correct code.
-    precision             : Of triggered guidance, fraction that was correct.
-    recall                : Of scenarios that needed guidance, fraction triggered.
-    f1_score              : Harmonic mean of precision and recall.
-    """
-
     # Summary metrics
     instruction_accuracy: float
     trust_calibration_error: float
@@ -81,13 +49,12 @@ class EvalReport:
     recall: float
     f1_score: float
 
-    # Scenario breakdown
     scenarios: List[ScenarioResult] = field(default_factory=list)
 
-    # Metadata
     dataset_path: str = ""
     total_scenarios: int = 0
     evaluated_at: str = ""
+    semantic_correctness_threshold: float = THRESHOLD
 
     def to_dict(self) -> Dict[str, Any]:
         d = asdict(self)
@@ -117,33 +84,18 @@ class EvalReport:
         return self.summary()
 
 
-# ---------------------------------------------------------------------------
-# Simulated guidance engine (stub – replace with real Execra calls)
-# ---------------------------------------------------------------------------
 
+# Simulated guidance engine (stub - replace with real Execra calls)
 def _simulate_guidance(scenario: Dict[str, Any]) -> tuple[str, float, float]:
-    """
-    Simulated guidance engine for offline / CI evaluation.
-
-    Returns
-    -------
-    (actual_guidance, confidence_score, latency_ms)
-
-    Replace the body of this function with a real call to Execra's
-    guidance pipeline when running against the live system.
-    """
-    import random
     rng = random.Random(scenario["id"])  # deterministic per scenario
 
     start = time.perf_counter()
 
     code: str = scenario["code"]
-    expected: str = scenario["expected_guidance"]
-    should_trigger: bool = scenario["should_trigger_guidance"]
 
-    # --- Simulate detection heuristics --------------------------------
-    # A naive rule-set to approximate what a real LLM would do.
+    # A naive rule-set heuristics to approximate what a real LLM would do.
     detected_issues: List[str] = []
+    normalized = code.replace(" ", "")
 
     if "for " in code and ":" not in code.split("for")[1].split("\n")[0]:
         detected_issues.append("Missing colon after for loop declaration")
@@ -159,20 +111,37 @@ def _simulate_guidance(scenario: Dict[str, Any]) -> tuple[str, float, float]:
         detected_issues.append("Use of exec() is a security risk")
     if "pickle.loads" in code and "request" in code:
         detected_issues.append("Critical: deserializing user-supplied pickle data enables arbitrary code execution")
-    if "os.system(" in code or "subprocess" in code and "shell=True" in code:
+    if (
+        "os.system(" in code
+        or ("subprocess" in code and "shell=True" in code)
+        ):
         detected_issues.append("Shell injection risk: avoid shell=True with user input")
     if "SQL" in code.upper() or ("query" in code and "%" in code) or ("query" in code and "f\"" in code) or ("query" in code and f"${{" in code):
         detected_issues.append("Possible SQL injection: use parameterised queries")
-    if "result=[]" in code.replace(" ", "") and "def " in code:
-        detected_issues.append("Mutable default argument bug: list persists across calls")
+    if "def " in code and ("=[]" in normalized or "={}" in normalized):
+        detected_issues.append(
+        "Mutable default argument bug: mutable object persists across calls"
+        )
     if "null" in code.lower() and ".name" in code and "?" not in code:
         detected_issues.append("Null reference: accessing property on potentially null object")
     if "password" in code.lower() and ("md5" in code.lower() or "sha1" in code.lower()):
         detected_issues.append("Weak password hashing: use bcrypt or Argon2 instead")
     if "random.random()" in code and ("token" in code.lower() or "secret" in code.lower()):
         detected_issues.append("Insecure randomness for security-sensitive value")
-
-    # Confidence is higher when we find issues matching expected keywords
+    if "range(len(" in code and "-1" in code:
+         detected_issues.append("Possible off-by-one indexing bug")
+    if (
+        "None" in code
+        and "." in code
+        and "is not None" not in code
+        and "if " not in code
+        ):
+        detected_issues.append("Possible None dereference")
+    if "api_key" in code.lower() or "secret_key" in code.lower():
+        detected_issues.append("Hardcoded secret detected")
+    if "open(" in code and ".close()" not in code and "with open" not in code:
+        detected_issues.append("File resource may not be closed properly")
+    
     actual_guidance = "; ".join(detected_issues) if detected_issues else "No issues detected"
     confidence_score = round(min(0.95, 0.5 + 0.1 * len(detected_issues) + rng.uniform(-0.05, 0.05)), 4)
 
@@ -193,10 +162,7 @@ def _tokenize(text: str) -> set:
 
 
 def _instruction_accuracy(actual: str, expected: str) -> float:
-    """
-    Keyword-overlap F1 between actual guidance and expected guidance.
-    Returns 0.0 if expected is 'No issues detected' and actual matches.
-    """
+    # Returns 1.0 when both expected and actual indicate no issues.
     if expected.lower() == "no issues detected":
         return 1.0 if actual.lower() == "no issues detected" else 0.0
 
@@ -216,10 +182,7 @@ def _instruction_accuracy(actual: str, expected: str) -> float:
 
 
 def _ece(confidences: List[float], accuracies: List[float], n_bins: int = 10) -> float:
-    """
-    Expected Calibration Error (ECE).
-    Bins predictions by confidence and measures |confidence − accuracy| per bin.
-    """
+
     if not confidences:
         return 0.0
 
@@ -251,36 +214,14 @@ def _percentile(values: List[float], p: float) -> float:
     frac = idx - lower
     return round(sorted_vals[lower] * (1 - frac) + sorted_vals[upper] * frac, 2)
 
-
-# ---------------------------------------------------------------------------
 # Main evaluator
-# ---------------------------------------------------------------------------
 
 class GuidanceEvaluator:
-    """
-    Evaluate Execra's guidance quality against a labelled dataset.
-
-    Parameters
-    ----------
-    guidance_fn : callable, optional
-        A function (scenario_dict) -> (guidance_str, confidence, latency_ms).
-        Defaults to the built-in simulator; swap in the real Execra engine.
-    """
 
     def __init__(self, guidance_fn=None):
         self._guidance_fn = guidance_fn or _simulate_guidance
 
     def evaluate(self, dataset_path: str) -> EvalReport:
-        """
-        Run the full evaluation and return an EvalReport.
-
-        Parameters
-        ----------
-        dataset_path : str
-            Path to a JSON file containing a list of scenario objects.
-        """
-        from datetime import datetime, timezone
-
         with open(dataset_path, "r", encoding="utf-8") as f:
             dataset: List[Dict[str, Any]] = json.load(f)
 
@@ -293,13 +234,18 @@ class GuidanceEvaluator:
             actual_guidance, confidence, latency_ms = self._guidance_fn(scenario)
 
             # Determine if guidance was triggered
-            triggered = actual_guidance.lower() != "no issues detected"
+            triggered = "no issues detected" not in actual_guidance.lower()
 
             # Instruction accuracy
             ia = _instruction_accuracy(actual_guidance, scenario["expected_guidance"])
 
             # Whether trigger decision was correct
             correct_trigger = triggered == scenario["should_trigger_guidance"]
+            is_correct_guidance = (
+                scenario["should_trigger_guidance"]
+                and triggered
+                and ia >= THRESHOLD
+            )
 
             sr = ScenarioResult(
                 scenario_id=scenario["id"],
@@ -316,13 +262,14 @@ class GuidanceEvaluator:
                 instruction_accuracy=ia,
                 confidence_score=confidence,
                 correct_trigger=correct_trigger,
+                is_correct_guidance=is_correct_guidance,
             )
             results.append(sr)
             latencies.append(latency_ms)
             confidences.append(confidence)
-            cal_accuracies.append(1.0 if correct_trigger else 0.0)
+            cal_accuracies.append(1.0 if is_correct_guidance else 0.0)
 
-        # ---- Aggregate metrics ----------------------------------------
+        # Aggregate metrics 
 
         mean_ia = round(statistics.mean(r.instruction_accuracy for r in results), 4)
         ece = _ece(confidences, cal_accuracies)
@@ -336,10 +283,19 @@ class GuidanceEvaluator:
             4
         )
 
-        # Precision / recall / F1 on trigger decision
-        tp = sum(1 for r in results if r.triggered_guidance and r.should_trigger_guidance)
-        fp = sum(1 for r in results if r.triggered_guidance and not r.should_trigger_guidance)
-        fn = sum(1 for r in results if not r.triggered_guidance and r.should_trigger_guidance)
+        # Precision / recall / F1 on semantically-correct guidance
+        tp = sum(
+                1 for r in results
+                if r.is_correct_guidance
+            )
+        fp = sum(
+                1 for r in results
+                if r.triggered_guidance and not r.is_correct_guidance
+            )
+        fn = sum(
+                1 for r in results
+                if r.should_trigger_guidance and not r.is_correct_guidance
+            )
 
         precision = round(tp / (tp + fp) if (tp + fp) else 0.0, 4)
         recall = round(tp / (tp + fn) if (tp + fn) else 0.0, 4)
@@ -363,10 +319,7 @@ class GuidanceEvaluator:
             evaluated_at=datetime.now(timezone.utc).isoformat(),
         )
 
-
-# ---------------------------------------------------------------------------
 # CLI entry-point
-# ---------------------------------------------------------------------------
 
 def _parse_args():
     parser = argparse.ArgumentParser(description="Execra Guidance Evaluator")

@@ -1,11 +1,11 @@
 {
-  "instruction_accuracy": 0.3278,
-  "trust_calibration_error": 0.2091,
-  "latency_p95_ms": 244.06,
+  "instruction_accuracy": 0.3199,
+  "trust_calibration_error": 0.4198,
+  "latency_p95_ms": 242.05,
   "false_positive_rate": 0.0,
-  "precision": 1.0,
-  "recall": 0.2083,
-  "f1_score": 0.3448,
+  "precision": 0.4545,
+  "recall": 0.122,
+  "f1_score": 0.1924,
   "scenarios": [
     {
       "scenario_id": 1,
@@ -17,10 +17,11 @@
       "should_trigger_guidance": true,
       "actual_guidance": "Missing colon after for loop declaration",
       "triggered_guidance": true,
-      "latency_ms": 207.35,
+      "latency_ms": 207.67,
       "instruction_accuracy": 1.0,
       "confidence_score": 0.5634,
-      "correct_trigger": true
+      "correct_trigger": true,
+      "is_correct_guidance": true
     },
     {
       "scenario_id": 2,
@@ -32,10 +33,11 @@
       "should_trigger_guidance": true,
       "actual_guidance": "No issues detected",
       "triggered_guidance": false,
-      "latency_ms": 66.23,
+      "latency_ms": 66.52,
       "instruction_accuracy": 0.0,
       "confidence_score": 0.5456,
-      "correct_trigger": false
+      "correct_trigger": false,
+      "is_correct_guidance": false
     },
     {
       "scenario_id": 3,
@@ -47,10 +49,11 @@
       "should_trigger_guidance": true,
       "actual_guidance": "No issues detected",
       "triggered_guidance": false,
-      "latency_ms": 127.27,
+      "latency_ms": 127.64,
       "instruction_accuracy": 0.0,
       "confidence_score": 0.4738,
-      "correct_trigger": false
+      "correct_trigger": false,
+      "is_correct_guidance": false
     },
     {
       "scenario_id": 4,
@@ -62,10 +65,11 @@
       "should_trigger_guidance": true,
       "actual_guidance": "Missing colon in function definition",
       "triggered_guidance": true,
-      "latency_ms": 130.73,
+      "latency_ms": 130.94,
       "instruction_accuracy": 0.6,
       "confidence_score": 0.5736,
-      "correct_trigger": true
+      "correct_trigger": true,
+      "is_correct_guidance": true
     },
     {
       "scenario_id": 5,
@@ -77,10 +81,11 @@
       "should_trigger_guidance": true,
       "actual_guidance": "No issues detected",
       "triggered_guidance": false,
-      "latency_ms": 213.09,
+      "latency_ms": 213.43,
       "instruction_accuracy": 0.0,
       "confidence_score": 0.5123,
-      "correct_trigger": false
+      "correct_trigger": false,
+      "is_correct_guidance": false
     },
     {
       "scenario_id": 6,
@@ -92,10 +97,11 @@
       "should_trigger_guidance": true,
       "actual_guidance": "Missing colon after while statement",
       "triggered_guidance": true,
-      "latency_ms": 151.4,
+      "latency_ms": 151.8,
       "instruction_accuracy": 1.0,
       "confidence_score": 0.6293,
-      "correct_trigger": true
+      "correct_trigger": true,
+      "is_correct_guidance": true
     },
     {
       "scenario_id": 7,
@@ -107,10 +113,11 @@
       "should_trigger_guidance": true,
       "actual_guidance": "No issues detected",
       "triggered_guidance": false,
-      "latency_ms": 181.89,
+      "latency_ms": 182.02,
       "instruction_accuracy": 0.0,
       "confidence_score": 0.4824,
-      "correct_trigger": false
+      "correct_trigger": false,
+      "is_correct_guidance": false
     },
     {
       "scenario_id": 8,
@@ -122,10 +129,11 @@
       "should_trigger_guidance": true,
       "actual_guidance": "No issues detected",
       "triggered_guidance": false,
-      "latency_ms": 80.22,
+      "latency_ms": 80.72,
       "instruction_accuracy": 0.0,
       "confidence_score": 0.4727,
-      "correct_trigger": false
+      "correct_trigger": false,
+      "is_correct_guidance": false
     },
     {
       "scenario_id": 9,
@@ -137,10 +145,11 @@
       "should_trigger_guidance": true,
       "actual_guidance": "No issues detected",
       "triggered_guidance": false,
-      "latency_ms": 80.3,
+      "latency_ms": 80.52,
       "instruction_accuracy": 0.0,
       "confidence_score": 0.4963,
-      "correct_trigger": false
+      "correct_trigger": false,
+      "is_correct_guidance": false
     },
     {
       "scenario_id": 10,
@@ -152,10 +161,11 @@
       "should_trigger_guidance": true,
       "actual_guidance": "No issues detected",
       "triggered_guidance": false,
-      "latency_ms": 168.43,
+      "latency_ms": 168.79,
       "instruction_accuracy": 0.0,
       "confidence_score": 0.5071,
-      "correct_trigger": false
+      "correct_trigger": false,
+      "is_correct_guidance": false
     },
     {
       "scenario_id": 11,
@@ -167,10 +177,11 @@
       "should_trigger_guidance": true,
       "actual_guidance": "No issues detected",
       "triggered_guidance": false,
-      "latency_ms": 238.19,
+      "latency_ms": 238.58,
       "instruction_accuracy": 0.2857,
       "confidence_score": 0.4952,
-      "correct_trigger": false
+      "correct_trigger": false,
+      "is_correct_guidance": false
     },
     {
       "scenario_id": 12,
@@ -182,10 +193,11 @@
       "should_trigger_guidance": true,
       "actual_guidance": "No issues detected",
       "triggered_guidance": false,
-      "latency_ms": 187.01,
+      "latency_ms": 187.02,
       "instruction_accuracy": 0.2,
       "confidence_score": 0.4975,
-      "correct_trigger": false
+      "correct_trigger": false,
+      "is_correct_guidance": false
     },
     {
       "scenario_id": 13,
@@ -197,10 +209,11 @@
       "should_trigger_guidance": true,
       "actual_guidance": "No issues detected",
       "triggered_guidance": false,
-      "latency_ms": 190.65,
+      "latency_ms": 191.02,
       "instruction_accuracy": 0.2857,
       "confidence_score": 0.4759,
-      "correct_trigger": false
+      "correct_trigger": false,
+      "is_correct_guidance": false
     },
     {
       "scenario_id": 14,
@@ -212,10 +225,11 @@
       "should_trigger_guidance": true,
       "actual_guidance": "No issues detected",
       "triggered_guidance": false,
-      "latency_ms": 184.32,
+      "latency_ms": 184.43,
       "instruction_accuracy": 0.0,
       "confidence_score": 0.4607,
-      "correct_trigger": false
+      "correct_trigger": false,
+      "is_correct_guidance": false
     },
     {
       "scenario_id": 15,
@@ -227,10 +241,11 @@
       "should_trigger_guidance": true,
       "actual_guidance": "No issues detected",
       "triggered_guidance": false,
-      "latency_ms": 198.34,
+      "latency_ms": 198.95,
       "instruction_accuracy": 0.0,
       "confidence_score": 0.5465,
-      "correct_trigger": false
+      "correct_trigger": false,
+      "is_correct_guidance": false
     },
     {
       "scenario_id": 16,
@@ -242,10 +257,11 @@
       "should_trigger_guidance": true,
       "actual_guidance": "No issues detected",
       "triggered_guidance": false,
-      "latency_ms": 136.41,
+      "latency_ms": 136.81,
       "instruction_accuracy": 0.0,
       "confidence_score": 0.4862,
-      "correct_trigger": false
+      "correct_trigger": false,
+      "is_correct_guidance": false
     },
     {
       "scenario_id": 17,
@@ -255,12 +271,13 @@
       "expected_guidance": "Referenced file does not exist",
       "ground_truth_fix": "f = open('existing.txt')",
       "should_trigger_guidance": true,
-      "actual_guidance": "No issues detected",
-      "triggered_guidance": false,
-      "latency_ms": 246.42,
-      "instruction_accuracy": 0.0,
-      "confidence_score": 0.5022,
-      "correct_trigger": false
+      "actual_guidance": "File resource may not be closed properly",
+      "triggered_guidance": true,
+      "latency_ms": 246.58,
+      "instruction_accuracy": 0.3333,
+      "confidence_score": 0.6022,
+      "correct_trigger": true,
+      "is_correct_guidance": false
     },
     {
       "scenario_id": 18,
@@ -270,12 +287,13 @@
       "expected_guidance": "Cannot call append on NoneType object",
       "ground_truth_fix": "numbers = []\nnumbers.append(1)",
       "should_trigger_guidance": true,
-      "actual_guidance": "No issues detected",
-      "triggered_guidance": false,
-      "latency_ms": 120.66,
+      "actual_guidance": "Possible None dereference",
+      "triggered_guidance": true,
+      "latency_ms": 120.8,
       "instruction_accuracy": 0.0,
-      "confidence_score": 0.4681,
-      "correct_trigger": false
+      "confidence_score": 0.5681,
+      "correct_trigger": true,
+      "is_correct_guidance": false
     },
     {
       "scenario_id": 19,
@@ -287,10 +305,11 @@
       "should_trigger_guidance": true,
       "actual_guidance": "No issues detected",
       "triggered_guidance": false,
-      "latency_ms": 158.33,
+      "latency_ms": 158.34,
       "instruction_accuracy": 0.2857,
       "confidence_score": 0.5177,
-      "correct_trigger": false
+      "correct_trigger": false,
+      "is_correct_guidance": false
     },
     {
       "scenario_id": 20,
@@ -305,7 +324,8 @@
       "latency_ms": 207.16,
       "instruction_accuracy": 0.0,
       "confidence_score": 0.5406,
-      "correct_trigger": false
+      "correct_trigger": false,
+      "is_correct_guidance": false
     },
     {
       "scenario_id": 21,
@@ -317,10 +337,11 @@
       "should_trigger_guidance": true,
       "actual_guidance": "No issues detected",
       "triggered_guidance": false,
-      "latency_ms": 180.86,
+      "latency_ms": 181.41,
       "instruction_accuracy": 0.0,
       "confidence_score": 0.4665,
-      "correct_trigger": false
+      "correct_trigger": false,
+      "is_correct_guidance": false
     },
     {
       "scenario_id": 22,
@@ -332,10 +353,11 @@
       "should_trigger_guidance": true,
       "actual_guidance": "No issues detected",
       "triggered_guidance": false,
-      "latency_ms": 56.42,
+      "latency_ms": 56.5,
       "instruction_accuracy": 0.0,
       "confidence_score": 0.5458,
-      "correct_trigger": false
+      "correct_trigger": false,
+      "is_correct_guidance": false
     },
     {
       "scenario_id": 23,
@@ -347,10 +369,11 @@
       "should_trigger_guidance": true,
       "actual_guidance": "No issues detected",
       "triggered_guidance": false,
-      "latency_ms": 233.39,
+      "latency_ms": 233.91,
       "instruction_accuracy": 0.0,
       "confidence_score": 0.5425,
-      "correct_trigger": false
+      "correct_trigger": false,
+      "is_correct_guidance": false
     },
     {
       "scenario_id": 24,
@@ -362,10 +385,11 @@
       "should_trigger_guidance": true,
       "actual_guidance": "No issues detected",
       "triggered_guidance": false,
-      "latency_ms": 91.0,
+      "latency_ms": 91.32,
       "instruction_accuracy": 0.0,
       "confidence_score": 0.5212,
-      "correct_trigger": false
+      "correct_trigger": false,
+      "is_correct_guidance": false
     },
     {
       "scenario_id": 25,
@@ -377,10 +401,11 @@
       "should_trigger_guidance": true,
       "actual_guidance": "No issues detected",
       "triggered_guidance": false,
-      "latency_ms": 223.5,
+      "latency_ms": 224.08,
       "instruction_accuracy": 0.0,
       "confidence_score": 0.4877,
-      "correct_trigger": false
+      "correct_trigger": false,
+      "is_correct_guidance": false
     },
     {
       "scenario_id": 26,
@@ -392,10 +417,11 @@
       "should_trigger_guidance": true,
       "actual_guidance": "No issues detected",
       "triggered_guidance": false,
-      "latency_ms": 92.95,
+      "latency_ms": 93.35,
       "instruction_accuracy": 0.0,
       "confidence_score": 0.5247,
-      "correct_trigger": false
+      "correct_trigger": false,
+      "is_correct_guidance": false
     },
     {
       "scenario_id": 27,
@@ -407,10 +433,11 @@
       "should_trigger_guidance": true,
       "actual_guidance": "No issues detected",
       "triggered_guidance": false,
-      "latency_ms": 245.32,
+      "latency_ms": 245.51,
       "instruction_accuracy": 0.0,
       "confidence_score": 0.5148,
-      "correct_trigger": false
+      "correct_trigger": false,
+      "is_correct_guidance": false
     },
     {
       "scenario_id": 28,
@@ -422,10 +449,11 @@
       "should_trigger_guidance": true,
       "actual_guidance": "No issues detected",
       "triggered_guidance": false,
-      "latency_ms": 171.07,
+      "latency_ms": 171.34,
       "instruction_accuracy": 0.0,
       "confidence_score": 0.4613,
-      "correct_trigger": false
+      "correct_trigger": false,
+      "is_correct_guidance": false
     },
     {
       "scenario_id": 29,
@@ -437,10 +465,11 @@
       "should_trigger_guidance": true,
       "actual_guidance": "No issues detected",
       "triggered_guidance": false,
-      "latency_ms": 221.46,
+      "latency_ms": 221.64,
       "instruction_accuracy": 0.0,
       "confidence_score": 0.5048,
-      "correct_trigger": false
+      "correct_trigger": false,
+      "is_correct_guidance": false
     },
     {
       "scenario_id": 30,
@@ -452,10 +481,11 @@
       "should_trigger_guidance": true,
       "actual_guidance": "No issues detected",
       "triggered_guidance": false,
-      "latency_ms": 58.26,
+      "latency_ms": 58.41,
       "instruction_accuracy": 0.0,
       "confidence_score": 0.5039,
-      "correct_trigger": false
+      "correct_trigger": false,
+      "is_correct_guidance": false
     },
     {
       "scenario_id": 31,
@@ -467,10 +497,11 @@
       "should_trigger_guidance": true,
       "actual_guidance": "No issues detected",
       "triggered_guidance": false,
-      "latency_ms": 130.12,
+      "latency_ms": 130.19,
       "instruction_accuracy": 0.3333,
       "confidence_score": 0.4512,
-      "correct_trigger": false
+      "correct_trigger": false,
+      "is_correct_guidance": false
     },
     {
       "scenario_id": 32,
@@ -482,10 +513,11 @@
       "should_trigger_guidance": true,
       "actual_guidance": "Use of eval() is a security risk",
       "triggered_guidance": true,
-      "latency_ms": 112.58,
+      "latency_ms": 113.1,
       "instruction_accuracy": 0.4,
       "confidence_score": 0.5577,
-      "correct_trigger": true
+      "correct_trigger": true,
+      "is_correct_guidance": true
     },
     {
       "scenario_id": 33,
@@ -497,10 +529,11 @@
       "should_trigger_guidance": true,
       "actual_guidance": "No issues detected",
       "triggered_guidance": false,
-      "latency_ms": 217.02,
+      "latency_ms": 217.33,
       "instruction_accuracy": 0.25,
       "confidence_score": 0.507,
-      "correct_trigger": false
+      "correct_trigger": false,
+      "is_correct_guidance": false
     },
     {
       "scenario_id": 34,
@@ -512,10 +545,11 @@
       "should_trigger_guidance": true,
       "actual_guidance": "No issues detected",
       "triggered_guidance": false,
-      "latency_ms": 222.11,
+      "latency_ms": 222.97,
       "instruction_accuracy": 0.0,
       "confidence_score": 0.5029,
-      "correct_trigger": false
+      "correct_trigger": false,
+      "is_correct_guidance": false
     },
     {
       "scenario_id": 35,
@@ -527,10 +561,11 @@
       "should_trigger_guidance": true,
       "actual_guidance": "Shell injection risk: avoid shell=True with user input",
       "triggered_guidance": true,
-      "latency_ms": 203.57,
+      "latency_ms": 203.89,
       "instruction_accuracy": 0.1538,
       "confidence_score": 0.6049,
-      "correct_trigger": true
+      "correct_trigger": true,
+      "is_correct_guidance": false
     },
     {
       "scenario_id": 36,
@@ -540,12 +575,13 @@
       "expected_guidance": "Sensitive API key exposed in source code",
       "ground_truth_fix": "api_key = os.getenv('API_KEY')",
       "should_trigger_guidance": true,
-      "actual_guidance": "No issues detected",
-      "triggered_guidance": false,
-      "latency_ms": 246.89,
+      "actual_guidance": "Hardcoded secret detected",
+      "triggered_guidance": true,
+      "latency_ms": 247.27,
       "instruction_accuracy": 0.0,
-      "confidence_score": 0.4829,
-      "correct_trigger": false
+      "confidence_score": 0.5829,
+      "correct_trigger": true,
+      "is_correct_guidance": false
     },
     {
       "scenario_id": 37,
@@ -557,10 +593,11 @@
       "should_trigger_guidance": true,
       "actual_guidance": "Use of exec() is a security risk",
       "triggered_guidance": true,
-      "latency_ms": 175.03,
+      "latency_ms": 175.37,
       "instruction_accuracy": 0.2667,
       "confidence_score": 0.6182,
-      "correct_trigger": true
+      "correct_trigger": true,
+      "is_correct_guidance": false
     },
     {
       "scenario_id": 38,
@@ -570,12 +607,13 @@
       "expected_guidance": "Unvalidated user input written directly to file",
       "ground_truth_fix": "open('/tmp/data.txt', 'w').write(sanitize(user_input))",
       "should_trigger_guidance": true,
-      "actual_guidance": "No issues detected",
-      "triggered_guidance": false,
-      "latency_ms": 197.67,
-      "instruction_accuracy": 0.0,
-      "confidence_score": 0.5139,
-      "correct_trigger": false
+      "actual_guidance": "File resource may not be closed properly",
+      "triggered_guidance": true,
+      "latency_ms": 198.12,
+      "instruction_accuracy": 0.1429,
+      "confidence_score": 0.6139,
+      "correct_trigger": true,
+      "is_correct_guidance": false
     },
     {
       "scenario_id": 39,
@@ -587,10 +625,11 @@
       "should_trigger_guidance": true,
       "actual_guidance": "No issues detected",
       "triggered_guidance": false,
-      "latency_ms": 91.67,
+      "latency_ms": 92.21,
       "instruction_accuracy": 0.0,
       "confidence_score": 0.471,
-      "correct_trigger": false
+      "correct_trigger": false,
+      "is_correct_guidance": false
     },
     {
       "scenario_id": 40,
@@ -602,10 +641,11 @@
       "should_trigger_guidance": true,
       "actual_guidance": "No issues detected",
       "triggered_guidance": false,
-      "latency_ms": 60.97,
+      "latency_ms": 61.5,
       "instruction_accuracy": 0.0,
       "confidence_score": 0.4959,
-      "correct_trigger": false
+      "correct_trigger": false,
+      "is_correct_guidance": false
     },
     {
       "scenario_id": 41,
@@ -617,10 +657,11 @@
       "should_trigger_guidance": false,
       "actual_guidance": "No issues detected",
       "triggered_guidance": false,
-      "latency_ms": 85.24,
+      "latency_ms": 86.04,
       "instruction_accuracy": 1.0,
       "confidence_score": 0.4881,
-      "correct_trigger": true
+      "correct_trigger": true,
+      "is_correct_guidance": false
     },
     {
       "scenario_id": 42,
@@ -632,10 +673,11 @@
       "should_trigger_guidance": false,
       "actual_guidance": "No issues detected",
       "triggered_guidance": false,
-      "latency_ms": 106.21,
+      "latency_ms": 107.08,
       "instruction_accuracy": 1.0,
       "confidence_score": 0.5139,
-      "correct_trigger": true
+      "correct_trigger": true,
+      "is_correct_guidance": false
     },
     {
       "scenario_id": 43,
@@ -647,10 +689,11 @@
       "should_trigger_guidance": false,
       "actual_guidance": "No issues detected",
       "triggered_guidance": false,
-      "latency_ms": 82.67,
+      "latency_ms": 82.93,
       "instruction_accuracy": 1.0,
       "confidence_score": 0.4539,
-      "correct_trigger": true
+      "correct_trigger": true,
+      "is_correct_guidance": false
     },
     {
       "scenario_id": 44,
@@ -662,10 +705,11 @@
       "should_trigger_guidance": false,
       "actual_guidance": "No issues detected",
       "triggered_guidance": false,
-      "latency_ms": 225.68,
+      "latency_ms": 226.36,
       "instruction_accuracy": 1.0,
       "confidence_score": 0.4909,
-      "correct_trigger": true
+      "correct_trigger": true,
+      "is_correct_guidance": false
     },
     {
       "scenario_id": 45,
@@ -677,10 +721,11 @@
       "should_trigger_guidance": false,
       "actual_guidance": "No issues detected",
       "triggered_guidance": false,
-      "latency_ms": 69.43,
+      "latency_ms": 69.78,
       "instruction_accuracy": 1.0,
       "confidence_score": 0.4772,
-      "correct_trigger": true
+      "correct_trigger": true,
+      "is_correct_guidance": false
     },
     {
       "scenario_id": 46,
@@ -692,10 +737,11 @@
       "should_trigger_guidance": false,
       "actual_guidance": "No issues detected",
       "triggered_guidance": false,
-      "latency_ms": 170.42,
+      "latency_ms": 170.76,
       "instruction_accuracy": 1.0,
       "confidence_score": 0.5388,
-      "correct_trigger": true
+      "correct_trigger": true,
+      "is_correct_guidance": false
     },
     {
       "scenario_id": 47,
@@ -707,10 +753,11 @@
       "should_trigger_guidance": false,
       "actual_guidance": "No issues detected",
       "triggered_guidance": false,
-      "latency_ms": 143.55,
+      "latency_ms": 143.95,
       "instruction_accuracy": 1.0,
       "confidence_score": 0.4852,
-      "correct_trigger": true
+      "correct_trigger": true,
+      "is_correct_guidance": false
     },
     {
       "scenario_id": 48,
@@ -722,10 +769,11 @@
       "should_trigger_guidance": false,
       "actual_guidance": "No issues detected",
       "triggered_guidance": false,
-      "latency_ms": 193.94,
+      "latency_ms": 194.4,
       "instruction_accuracy": 1.0,
       "confidence_score": 0.5048,
-      "correct_trigger": true
+      "correct_trigger": true,
+      "is_correct_guidance": false
     },
     {
       "scenario_id": 49,
@@ -737,10 +785,11 @@
       "should_trigger_guidance": false,
       "actual_guidance": "No issues detected",
       "triggered_guidance": false,
-      "latency_ms": 74.85,
+      "latency_ms": 75.02,
       "instruction_accuracy": 1.0,
       "confidence_score": 0.4567,
-      "correct_trigger": true
+      "correct_trigger": true,
+      "is_correct_guidance": false
     },
     {
       "scenario_id": 50,
@@ -752,163 +801,31 @@
       "should_trigger_guidance": false,
       "actual_guidance": "No issues detected",
       "triggered_guidance": false,
-      "latency_ms": 179.65,
+      "latency_ms": 180.18,
       "instruction_accuracy": 1.0,
       "confidence_score": 0.4998,
-      "correct_trigger": true
+      "correct_trigger": true,
+      "is_correct_guidance": false
     },
     {
       "scenario_id": 51,
-      "language": "javascript",
-      "category": "syntax",
-      "difficulty": "easy",
-      "expected_guidance": "Missing closing parenthesis in console.log call",
-      "ground_truth_fix": "function greet(name) {\n  console.log('Hello ' + name);\n}",
-      "should_trigger_guidance": true,
-      "actual_guidance": "No issues detected",
-      "triggered_guidance": false,
-      "latency_ms": 85.49,
-      "instruction_accuracy": 0.0,
-      "confidence_score": 0.4744,
-      "correct_trigger": false
-    },
-    {
-      "scenario_id": 52,
-      "language": "javascript",
-      "category": "runtime",
-      "difficulty": "medium",
-      "expected_guidance": "Null reference: accessing property 'name' on null will throw TypeError",
-      "ground_truth_fix": "const user = null;\nconsole.log(user?.name ?? 'unknown');",
-      "should_trigger_guidance": true,
-      "actual_guidance": "Null reference: accessing property on potentially null object",
-      "triggered_guidance": true,
-      "latency_ms": 196.45,
-      "instruction_accuracy": 0.625,
-      "confidence_score": 0.6478,
-      "correct_trigger": true
-    },
-    {
-      "scenario_id": 53,
-      "language": "javascript",
-      "category": "logic",
-      "difficulty": "medium",
-      "expected_guidance": "Logical issue: map returns a new array; original arr is logged, not doubled",
-      "ground_truth_fix": "const arr = [1, 2, 3];\nconst doubled = arr.map(x => x * 2);\nconsole.log(doubled);",
-      "should_trigger_guidance": true,
-      "actual_guidance": "No issues detected",
-      "triggered_guidance": false,
-      "latency_ms": 145.97,
-      "instruction_accuracy": 0.0,
-      "confidence_score": 0.5117,
-      "correct_trigger": false
-    },
-    {
-      "scenario_id": 54,
-      "language": "javascript",
-      "category": "security",
-      "difficulty": "hard",
-      "expected_guidance": "SQL injection vulnerability: user input interpolated directly into query string",
-      "ground_truth_fix": "app.get('/user', (req, res) => {\n  const id = req.query.id;\n  db.query('SELECT * FROM users WHERE id = ?', [id], (err, result) => {\n    res.json(result);\n  });\n});",
-      "should_trigger_guidance": true,
-      "actual_guidance": "Possible SQL injection: use parameterised queries",
-      "triggered_guidance": true,
-      "latency_ms": 162.89,
-      "instruction_accuracy": 0.25,
-      "confidence_score": 0.6414,
-      "correct_trigger": true
-    },
-    {
-      "scenario_id": 55,
-      "language": "javascript",
-      "category": "correct_code",
-      "difficulty": "medium",
-      "expected_guidance": "No issues detected",
-      "ground_truth_fix": "const arr = [3, 1, 2];\nconst sorted = [...arr].sort((a, b) => a - b);\nconsole.log(sorted);",
-      "should_trigger_guidance": false,
-      "actual_guidance": "No issues detected",
-      "triggered_guidance": false,
-      "latency_ms": 84.93,
-      "instruction_accuracy": 1.0,
-      "confidence_score": 0.459,
-      "correct_trigger": true
-    },
-    {
-      "scenario_id": 56,
-      "language": "typescript",
-      "category": "syntax",
-      "difficulty": "easy",
-      "expected_guidance": "Type mismatch: add returns number but result is typed as string",
-      "ground_truth_fix": "function add(a: number, b: number): number {\n  return a + b;\n}\nconst result: number = add(1, 2);",
-      "should_trigger_guidance": true,
-      "actual_guidance": "No issues detected",
-      "triggered_guidance": false,
-      "latency_ms": 148.07,
-      "instruction_accuracy": 0.0,
-      "confidence_score": 0.5466,
-      "correct_trigger": false
-    },
-    {
-      "scenario_id": 57,
-      "language": "typescript",
-      "category": "runtime",
-      "difficulty": "medium",
-      "expected_guidance": "Optional property 'age' accessed without null check; will throw at runtime if undefined",
-      "ground_truth_fix": "interface User { name: string; age?: number; }\nfunction greet(user: User) {\n  return `Hello ${user.name}, age ${user.age?.toFixed(0) ?? 'unknown'}`;\n}",
-      "should_trigger_guidance": true,
-      "actual_guidance": "No issues detected",
-      "triggered_guidance": false,
-      "latency_ms": 57.32,
-      "instruction_accuracy": 0.0,
-      "confidence_score": 0.4543,
-      "correct_trigger": false
-    },
-    {
-      "scenario_id": 58,
-      "language": "typescript",
-      "category": "correct_code",
-      "difficulty": "hard",
-      "expected_guidance": "No issues detected",
-      "ground_truth_fix": "type Result<T, E> = { ok: true; value: T } | { ok: false; error: E };\nfunction divide(a: number, b: number): Result<number, string> {\n  if (b === 0) return { ok: false, error: 'Division by zero' };\n  return { ok: true, value: a / b };\n}",
-      "should_trigger_guidance": false,
-      "actual_guidance": "No issues detected",
-      "triggered_guidance": false,
-      "latency_ms": 180.33,
-      "instruction_accuracy": 1.0,
-      "confidence_score": 0.5081,
-      "correct_trigger": true
-    },
-    {
-      "scenario_id": 59,
-      "language": "python",
-      "category": "security",
-      "difficulty": "hard",
-      "expected_guidance": "Critical: deserializing user-supplied pickle data enables arbitrary code execution (RCE)",
-      "ground_truth_fix": "import json\nfrom flask import request\n\n@app.route('/load')\ndef load_data():\n    data = request.args.get('payload')\n    obj = json.loads(data)\n    return str(obj)",
-      "should_trigger_guidance": true,
-      "actual_guidance": "Critical: deserializing user-supplied pickle data enables arbitrary code execution",
-      "triggered_guidance": true,
-      "latency_ms": 243.99,
-      "instruction_accuracy": 0.9524,
-      "confidence_score": 0.5724,
-      "correct_trigger": true
-    },
-    {
-      "scenario_id": 60,
       "language": "python",
       "category": "logic",
       "difficulty": "hard",
       "expected_guidance": "Mutable default argument bug: 'result=[]' persists across calls, accumulating state",
       "ground_truth_fix": "def flatten(lst, result=None):\n    if result is None:\n        result = []\n    for item in lst:\n        if isinstance(item, list):\n            flatten(item, result)\n        else:\n            result.append(item)\n    return result",
       "should_trigger_guidance": true,
-      "actual_guidance": "Mutable default argument bug: list persists across calls",
+      "actual_guidance": "Mutable default argument bug: mutable object persists across calls",
       "triggered_guidance": true,
-      "latency_ms": 106.55,
+      "latency_ms": 85.98,
       "instruction_accuracy": 0.7778,
-      "confidence_score": 0.5808,
-      "correct_trigger": true
+      "confidence_score": 0.5744,
+      "correct_trigger": true,
+      "is_correct_guidance": true
     }
   ],
   "dataset_path": "research/eval/eval_dataset.json",
-  "total_scenarios": 60,
-  "evaluated_at": "2026-05-16T16:18:04.936921Z"
+  "total_scenarios": 51,
+  "evaluated_at": "2026-05-16T20:39:40.503610+00:00",
+  "semantic_correctness_threshold": 0.4
 }
