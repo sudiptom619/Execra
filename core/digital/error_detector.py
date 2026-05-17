@@ -15,7 +15,9 @@ class ErrorDetector:
                 errors.append(
                     {
                         "type": "UnhandledException",
-                        "description": event.get("exception", "Unhandled exception occurred"),
+                        "description": event.get(
+                            "exception", "Unhandled exception occurred"
+                        ),
                         "line": event.get("line"),
                         "severity": "high",
                     }
@@ -46,7 +48,10 @@ class ErrorDetector:
                         errors.append(
                             {
                                 "type": "TypeMismatch",
-                                "description": f"Expected return type {expected_type}, got {type(return_value).__name__}",
+                                "description": (
+                                    f"Expected return type {expected_type}, "
+                                    f"got {type(return_value).__name__}"
+                                ),
                                 "line": event.get("line"),
                                 "severity": "medium",
                             }
