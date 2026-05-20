@@ -41,7 +41,7 @@ def retry(max_retries: int = 3, base_delay: float = 1.0):
                         )
                         await asyncio.sleep(delay)
 
-                return async_wapper
+            return async_wrapper
 
         else:
 
