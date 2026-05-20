@@ -5,6 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from api.routes import status, mode
 from api.routes import actions, context
+from api.websockets import guidance as ws_guidance
 
 from core.config import settings
 from core.errors import handle_exception  # ✅ NEW
@@ -26,19 +27,19 @@ app.add_middleware(
 # Startup event
 @app.on_event("startup")
 async def startup_event():
-    try:
-        logger.info("Execra API starting...")
-    except Exception as e:
-        handle_exception(e)
+    logger.info("Execra API starting...")
+    from api.websockets.router import broadcast_action_log
+    from core.hybrid.action_logger import action_logger
+    action_logger.register_callback(broadcast_action_log)
 
 
 # Shutdown event
 @app.on_event("shutdown")
 async def shutdown_event():
-    try:
-        logger.info("Execra API shutting down...")
-    except Exception as e:
-        handle_exception(e)
+    logger.info("Execra API shutting down...")
+    from api.websockets.router import broadcast_action_log
+    from core.hybrid.action_logger import action_logger
+    action_logger.unregister_callback(broadcast_action_log)
 
 
 # Root endpoint
@@ -68,5 +69,9 @@ except Exception as e:
     handle_exception(e)
 
 
-# from api.routes import users
-# app.include_router(users.router)
+# Action log and session context endpoints
+app.include_router(actions.router, prefix="/api/v1")
+app.include_router(context.router, prefix="/api/v1")
+
+# WebSocket endpoints (no prefix — WS routes use the path as-is)
+app.include_router(ws_guidance.router)

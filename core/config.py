@@ -4,7 +4,9 @@ Modules should import settings from here instead of os.getenv().
 """
 
 import os
+from typing import Optional
 from dataclasses import dataclass, field
+from typing import Optional
 
 from dotenv import load_dotenv
 
@@ -44,6 +46,8 @@ class Settings:
         default_factory=lambda: [
             "http://localhost:3000",
             "http://127.0.0.1:3000",
+            "http://localhost:5173",
+            "http://127.0.0.1:5173",
             "http://localhost:8000",
             "http://127.0.0.1:8000",
         ]
@@ -52,6 +56,16 @@ class Settings:
     # Redis Configuration
     REDIS_URL: str = "redis://localhost:6379"
     REDIS_AUTH: Optional[str] = None
+
+    # Trace Anomaly Detection (Isolation Forest)
+    # Expected fraction of anomalous traces in training data.
+    ANOMALY_CONTAMINATION: float = 0.1
+    # Number of trees in the Isolation Forest ensemble.
+    ANOMALY_N_ESTIMATORS: int = 100
+    # Random seed — controls both model training and synthetic baseline generation.
+    ANOMALY_RANDOM_STATE: int = 42
+    # Path where the fitted model is persisted with joblib.
+    ANOMALY_MODEL_PATH: str = "data/trace_anomaly_model.joblib"
 
     # Privacy Configuration
     PRIVACY_MASKING_ENABLED: bool = True
@@ -108,6 +122,16 @@ class Settings:
             self.TRUST_SCORE_W2 = float(env_val)
         if env_val := os.getenv("TRUST_SCORE_W3"):
             self.TRUST_SCORE_W3 = float(env_val)
+
+        # Trace Anomaly Detection
+        if env_val := os.getenv("ANOMALY_CONTAMINATION"):
+            self.ANOMALY_CONTAMINATION = float(env_val)
+        if env_val := os.getenv("ANOMALY_N_ESTIMATORS"):
+            self.ANOMALY_N_ESTIMATORS = int(env_val)
+        if env_val := os.getenv("ANOMALY_RANDOM_STATE"):
+            self.ANOMALY_RANDOM_STATE = int(env_val)
+        if env_val := os.getenv("ANOMALY_MODEL_PATH"):
+            self.ANOMALY_MODEL_PATH = env_val
 
         # Privacy Configuration
         if env_val := os.getenv("PRIVACY_MASKING_ENABLED"):

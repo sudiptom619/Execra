@@ -1,4 +1,4 @@
-from config import settings
+from core.config import settings
 
 def calculate_trust_score(llm_confidence: float, rule_validation: bool, execution_trace_match: float) -> dict:
     """

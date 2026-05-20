@@ -26,6 +26,17 @@ class ActionLogger:
 
         self.db_path = db_path
         self._stack = deque(maxlen=50)
+        self.on_log_callbacks = []
+
+    def register_callback(self, cb) -> None:
+        """Register a callback to be executed when an action is logged."""
+        if cb not in self.on_log_callbacks:
+            self.on_log_callbacks.append(cb)
+
+    def unregister_callback(self, cb) -> None:
+        """Unregister a callback."""
+        if cb in self.on_log_callbacks:
+            self.on_log_callbacks.remove(cb)
 
     async def _init_db(self):
         """Create the action_log table if it doesn't exist."""
@@ -45,7 +56,7 @@ class ActionLogger:
             await db.commit()
 
     async def log_action(self, action: ActionRecord) -> None:
-        """Save action to SQLite and append to in-memory undo stack."""
+        """Save action to SQLite, append to stack, and trigger callbacks."""
         await self._init_db()  # ensure table exists
 
         # Add to in-memory deque
@@ -66,6 +77,17 @@ class ActionLogger:
                 action.guidance_confidence
             ))
             await db.commit()
+
+        # Trigger callbacks
+        for cb in list(self.on_log_callbacks):
+            try:
+                import inspect
+                if inspect.iscoroutinefunction(cb):
+                    await cb(action)
+                else:
+                    cb(action)
+            except Exception as e:
+                logger.error(f"Error in action log callback: {e}")
     
     def undo_last(self) -> Optional[ActionRecord]:
         """Pop and return the last action from the undo stack. Returns None if empty."""
