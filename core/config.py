@@ -28,6 +28,9 @@ class Settings:
     OPENAI_API_KEY: str = ""
     GEMINI_API_KEY: str = ""
 
+    # Security
+    ENCRYPTION_KEY: str = ""
+
     # Screen Capture & Detection
     SCREEN_CAPTURE_FPS: int = 2
     DETECTION_THRESHOLD: float = 0.5
@@ -79,15 +82,19 @@ class Settings:
     )
 
     def __post_init__(self):
-        # LLM
+        """Load environment variables and override defaults."""
+        # LLM Configuration
         if val := os.getenv("LLM_BACKEND"):
             self.LLM_BACKEND = val
         if val := os.getenv("OPENAI_API_KEY"):
             self.OPENAI_API_KEY = val
         if val := os.getenv("GEMINI_API_KEY"):
             self.GEMINI_API_KEY = val
+        # Security
+        if val := os.getenv("ENCRYPTION_KEY"):
+            self.ENCRYPTION_KEY = val
 
-        # Screen
+        # Screen Capture & Detection
         if val := os.getenv("SCREEN_CAPTURE_FPS"):
             self.SCREEN_CAPTURE_FPS = int(val)
         if val := os.getenv("DETECTION_THRESHOLD"):
@@ -95,7 +102,7 @@ class Settings:
         if val := os.getenv("DELTA_THRESHOLD"):
             self.DELTA_THRESHOLD = float(val)
 
-        # API
+        # API Configuration
         if val := os.getenv("API_HOST"):
             self.API_HOST = val
         if val := os.getenv("API_PORT"):
@@ -150,6 +157,7 @@ class Settings:
         required_fields = {
             "OPENAI_API_KEY": self.OPENAI_API_KEY,
             "GEMINI_API_KEY": self.GEMINI_API_KEY,
+            "ENCRYPTION_KEY": self.ENCRYPTION_KEY,
         }
 
         missing = [key for key, value in required_fields.items() if not value]
